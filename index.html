@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muselio — Galerie d'Art Domaine Public</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --charcoal: #1a1a1a;
+            --gold: #d4af37;
+            --light-gray: #f5f5f5;
+            --dark-gray: #2a2a2a;
+            --serif: 'Georgia', 'Garamond', serif;
+        }
+
+        body {
+            background: var(--charcoal);
+            color: var(--light-gray);
+            font-family: var(--serif);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            background: rgba(26, 26, 26, 0.98);
+            border-bottom: 2px solid var(--gold);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: var(--gold);
+        }
+
+        .logo span {
+            color: var(--light-gray);
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--light-gray);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 0.25rem;
+        }
+
+        nav a:hover {
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+        }
+
+        /* Hero */
+        .hero {
+            margin-top: 60px;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--charcoal) 0%, var(--dark-gray) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--gold);
+            letter-spacing: 3px;
+            font-weight: normal;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: var(--light-gray);
+            font-style: italic;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--gold);
+            color: var(--charcoal);
+            text-decoration: none;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            border: 2px solid var(--gold);
+            font-family: var(--serif);
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background: transparent;
+            color: var(--gold);
+        }
+
+        /* Features */
+        .features {
+            padding: 6rem 2rem;
+            background: var(--charcoal);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 4rem;
+            color: var(--gold);
+            letter-spacing: 2px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--dark-gray);
+            padding: 2rem;
+            border-left: 3px solid var(--gold);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+        }
+
+        .feature-card h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .feature-card p {
+            color: var(--light-gray);
+            font-size: 0.95rem;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            background: var(--charcoal);
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid var(--gold);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            background: var(--dark-gray);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .stat-number {
+            font-size: 2.8rem;
+            color: var(--gold);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--light-gray);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .stat-desc {
+            font-size: 0.9rem;
+            color: #999;
+            font-style: italic;
+        }
+
+        /* Gallery Preview */
+        .gallery-section {
+            padding: 6rem 2rem;
+            background: var(--dark-gray);
+        }
+
+        .museum-name {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .museum-count {
+            font-size: 0.85rem;
+            color: var(--gold);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            background: var(--charcoal);
+            border: 2px solid var(--gold);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .gallery-item-content {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #333 0%, #1a1a1a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: var(--gold);
+            text-align: center;
+            padding: 1rem;
+            font-style: italic;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, var(--charcoal) 0%, var(--dark-gray) 100%);
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--gold);
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Pricing */
+        .pricing-section {
+            padding: 6rem 2rem;
+            background: var(--charcoal);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: var(--dark-gray);
+            padding: 2.5rem;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .pricing-card.featured {
+            border: 2px solid var(--gold);
+            transform: scale(1.05);
+        }
+
+        .pricing-card h3 {
+            color: var(--gold);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin: 1rem 0;
+            font-weight: bold;
+        }
+
+        .price-period {
+            font-size: 0.9rem;
+            color: var(--light-gray);
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .pricing-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--dark-gray);
+            color: var(--light-gray);
+        }
+
+        /* Footer */
+        footer {
+            background: #0a0a0a;
+            color: var(--light-gray);
+            text-align: center;
+            padding: 2rem;
+            border-top: 2px solid var(--gold);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">Muselio<span>.</span></div>
+        <nav>
+            <a href="#galerie">Galerie</a>
+            <a href="#tarifs">Tarifs</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Gilded Silence</h1>
+            <p>Explorez les trésors du domaine public. Où l'art ancien rencontre le design moderne.</p>
+            <button class="cta-button">Découvrir la Galerie</button>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <h2 class="section-title">Pourquoi Muselio</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>✦ Domaine Public</h3>
+                <p>Milliers d'œuvres du domaine public, libres d'utilisation. Aucun droit d'auteur.</p>
+            </div>
+            <div class="feature-card">
+                <h3>✦ Haute Définition</h3>
+                <p>Téléchargez les images en HD depuis les musées de prestige mondiaux.</p>
+            </div>
+            <div class="feature-card">
+                <h3>✦ Sources Vérifiées</h3>
+                <p>Contenu provenant directement des API officielles des grands musées.</p>
+            </div>
+            <div class="feature-card">
+                <h3>✦ Recherche Intelligente</h3>
+                <p>IA intégrée pour explorer par thème, époque, artiste ou technique.</p>
+            </div>
+            <div class="feature-card">
+                <h3>✦ Multi-Plateforme</h3>
+                <p>Application mobile, web, et téléchargement local. Partout avec vous.</p>
+            </div>
+            <div class="feature-card">
+                <h3>✦ Légal & Éthique</h3>
+                <p>100% légal. Respect des musées partenaires et des artistes du domaine public.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <h2 class="section-title">Une Bibliothèque Mondiale</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-artworks">7.5M+</div>
+                    <div class="stat-label">Œuvres d'art</div>
+                    <div class="stat-desc">du domaine public</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-museums">8</div>
+                    <div class="stat-label">Musées mondiaux</div>
+                    <div class="stat-desc">sources officielles</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-artists">500K+</div>
+                    <div class="stat-label">Artistes uniques</div>
+                    <div class="stat-desc">siècles de création</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-countries">150+</div>
+                    <div class="stat-label">Pays représentés</div>
+                    <div class="stat-desc">diversité culturelle</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Preview -->
+    <section class="gallery-section" id="galerie">
+        <h2 class="section-title">Nos Sources Officielles</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <div class="gallery-item-content">
+                    <div class="museum-name">The Met</div>
+                    <div class="museum-count">375K+ œuvres</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-item-content">
+                    <div class="museum-name">Smithsonian</div>
+                    <div class="museum-count">2M+ objets</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-item-content">
+                    <div class="museum-name">Rijksmuseum</div>
+                    <div class="museum-count">700K+ œuvres</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-item-content">
+                    <div class="museum-name">Gallica (BnF)</div>
+                    <div class="museum-count">3M+ documents</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-item-content">
+                    <div class="museum-name">Art Institute Chicago</div>
+                    <div class="museum-count">50K+ œuvres</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-item-content">
+                    <div class="museum-name">Harvard Art</div>
+                    <div class="museum-count">250K+ œuvres</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-item-content">
+                    <div class="museum-name">Cleveland</div>
+                    <div class="museum-count">30K+ œuvres</div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-item-content">
+                    <div class="museum-name">Victoria & Albert</div>
+                    <div class="museum-count">500K+ objets</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Prêt à explorer?</h2>
+        <p>Téléchargez l'application mobile ou accédez à la galerie en ligne pour commencer votre voyage dans l'histoire de l'art.</p>
+        <button class="cta-button">Accéder à la Galerie</button>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing-section" id="tarifs">
+        <h2 class="section-title">Tarification</h2>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>App Mobile</h3>
+                <div class="price">Gratuite<span class="price-period"></span></div>
+                <ul>
+                    <li>✓ Galerie complète</li>
+                    <li>✓ Favoris illimités</li>
+                    <li>✓ Téléchargement HD</li>
+                    <li>✓ Partage social</li>
+                    <li>✓ Hors ligne</li>
+                </ul>
+                <button class="cta-button">Télécharger</button>
+            </div>
+            <div class="pricing-card featured">
+                <h3>Web Premium</h3>
+                <div class="price">9€<span class="price-period">/mois</span></div>
+                <ul>
+                    <li>✓ Tous les accès app</li>
+                    <li>✓ Galerie interactive</li>
+                    <li>✓ API personnelle</li>
+                    <li>✓ Collections illimitées</li>
+                    <li>✓ Support prioritaire</li>
+                </ul>
+                <button class="cta-button">S'abonner</button>
+            </div>
+            <div class="pricing-card">
+                <h3>Professionnel</h3>
+                <div class="price">49€<span class="price-period">/mois</span></div>
+                <ul>
+                    <li>✓ Web Premium</li>
+                    <li>✓ Téléchargement batch</li>
+                    <li>✓ Métadonnées complètes</li>
+                    <li>✓ Données personnalisées</li>
+                    <li>✓ Support dédié</li>
+                </ul>
+                <button class="cta-button">Contactez-nous</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <p>&copy; 2025 Muselio — Galerie d'Art Domaine Public. Tous droits réservés.</p>
+        <p><a href="#">Politique de confidentialité</a> • <a href="#">Conditions d'utilisation</a> • <a href="#">Nous contacter</a></p>
+    </footer>
+
+    <script>
+        // Animation des statistiques au scroll
+        function animateNumbers() {
+            const stats = [
+                { id: 'total-artworks', final: 7500000, format: (n) => (n / 1000000).toFixed(1) + 'M+' },
+                { id: 'total-museums', final: 8, format: (n) => n.toString() },
+                { id: 'total-artists', final: 500000, format: (n) => (n / 1000).toFixed(0) + 'K+' },
+                { id: 'total-countries', final: 150, format: (n) => n + '+' }
+            ];
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                        entry.target.classList.add('animated');
+                        animateValue(stats);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            const statsSection = document.querySelector('.stats-section');
+            if (statsSection) observer.observe(statsSection);
+        }
+
+        function animateValue(stats) {
+            const duration = 2000; // 2 secondes
+            const startTime = Date.now();
+
+            function update() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                stats.forEach(stat => {
+                    const element = document.getElementById(stat.id);
+                    if (element) {
+                        const current = Math.floor(stat.final * progress);
+                        element.textContent = stat.format(current);
+                    }
+                });
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+
+            update();
+        }
+
+        // Smooth scroll pour les liens d'ancrage
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Lancer l'animation au chargement
+        document.addEventListener('DOMContentLoaded', animateNumbers);
+    </script>
+</body>
+</html>
