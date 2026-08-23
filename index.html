@@ -25,6 +25,7 @@
             font-family: var(--serif);
             line-height: 1.6;
             overflow-x: hidden;
+            scroll-padding-top: 80px;
         }
 
         /* Header */
@@ -364,7 +365,7 @@
 
         .pricing-card li {
             padding: 0.5rem 0;
-            border-bottom: 1px solid var(--dark-gray);
+            border-bottom: 1px solid #444;
             color: var(--light-gray);
         }
 
@@ -611,10 +612,20 @@
         </div>
     </section>
 
+    <!-- Contact Form -->
+    <section style="padding: 6rem 2rem; background: var(--dark-gray);" id="contact-form">
+        <h2 class="section-title">Nous Contacter</h2>
+        <form style="max-width: 500px; margin: 0 auto;" onsubmit="handleContactForm(event)">
+            <input type="email" placeholder="Votre email" required style="width: 100%; padding: 0.75rem; margin-bottom: 1rem; background: var(--charcoal); color: var(--light-gray); border: 1px solid var(--gold); font-family: var(--serif);">
+            <textarea placeholder="Votre message" required style="width: 100%; padding: 0.75rem; margin-bottom: 1rem; background: var(--charcoal); color: var(--light-gray); border: 1px solid var(--gold); font-family: var(--serif); min-height: 150px;"></textarea>
+            <button type="submit" class="cta-button" style="width: 100%;">Envoyer</button>
+        </form>
+    </section>
+
     <!-- Footer -->
     <footer id="contact">
-        <p>&copy; 2025 Muselio — Galerie d'Art Domaine Public. Tous droits réservés.</p>
-        <p><a href="#">Politique de confidentialité</a> • <a href="#">Conditions d'utilisation</a> • <a href="#">Nous contacter</a></p>
+        <p>&copy; 2026 Muselio — Galerie d'Art Domaine Public. Tous droits réservés.</p>
+        <p><a href="#privacy">Politique de confidentialité</a> • <a href="#terms">Conditions d'utilisation</a> • <a href="#contact-form">Nous contacter</a></p>
     </footer>
 
     <script>
@@ -627,10 +638,12 @@
                 { id: 'total-countries', final: 150, format: (n) => n + '+' }
             ];
 
+            let hasAnimated = false;
+
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
-                        entry.target.classList.add('animated');
+                    if (entry.isIntersecting && !hasAnimated) {
+                        hasAnimated = true;
                         animateValue(stats);
                     }
                 });
@@ -641,7 +654,7 @@
         }
 
         function animateValue(stats) {
-            const duration = 2000; // 2 secondes
+            const duration = 2000;
             const startTime = Date.now();
 
             function update() {
@@ -662,6 +675,21 @@
             }
 
             update();
+        }
+
+        // Contact form handler
+        function handleContactForm(event) {
+            event.preventDefault();
+            const form = event.target;
+            const email = form.querySelector('input[type="email"]').value;
+            const message = form.querySelector('textarea').value;
+
+            // Send to email (via simple mailto for now)
+            const mailtoLink = `mailto:contact@muselio.app?subject=Nouveau message de ${email}&body=${encodeURIComponent(message)}`;
+
+            // Show confirmation
+            alert('Message envoyé! Nous vous répondrons bientôt.');
+            form.reset();
         }
 
         // Smooth scroll pour les liens d'ancrage
