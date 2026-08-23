@@ -1,0 +1,54 @@
+{
+  "artworks": [
+    {
+      "id": 1,
+      "title": "La Nuit étoilée",
+      "artist": "Vincent van Gogh",
+      "year": 1889,
+      "image": "https://www.metmuseum.org/art/mediumres/DT1583.jpg",
+      "museum": "The Met",
+      "url": "https://www.metmuseum.org/art/collection/436534",
+      "description": "Œuvre emblématique du post-impressionnisme"
+    },
+    {
+      "id": 2,
+      "title": "La Persistance de la mémoire",
+      "artist": "Salvador Dalí",
+      "year": 1931,
+      "image": "https://upload.wikimedia.org/wikipedia/en/d/dd/The_Persistence_of_Memory.jpg",
+      "museum": "Surréalisme",
+      "url": "https://www.moma.org/collection/works/79018",
+      "description": "Les montres molles symbolisent la relativité du temps"
+    },
+    {
+      "id": 3,
+      "title": "Les Demoiselles d'Avignon",
+      "artist": "Pablo Picasso",
+      "year": 1907,
+      "image": "https://upload.wikimedia.org/wikipedia/en/4/4c/Les_Demoiselles_d%27Avignon.jpg",
+      "museum": "MoMA",
+      "url": "https://www.moma.org/collection/works/79885",
+      "description": "Tableau fondateur du cubisme"
+    },
+    {
+      "id": 4,
+      "title": "La Création d'Adam",
+      "artist": "Michel-Ange",
+      "year": 1512,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Michelangelo_-_Creation_of_Adam.jpg/1280px-Michelangelo_-_Creation_of_Adam.jpg",
+      "museum": "Chapelle Sixtine",
+      "url": "https://en.wikipedia.org/wiki/The_Creation_of_Adam",
+      "description": "Chef-d'œuvre de la Renaissance italienne"
+    },
+    {
+      "id": 5,
+      "title": "The Son of Man",
+      "artist": "René Magritte",
+      "year": 1964,
+      "image": "https://upload.wikimedia.org/wikipedia/en/e/e5/The_Son_of_Man.jpg",
+      "museum": "Musée d'Art Moderne",
+      "url": "https://en.wikipedia.org/wiki/The_Son_of_Man",
+      "description": "Icône du surréalisme belge"
+    }
+  ]
+}

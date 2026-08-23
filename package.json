@@ -1,0 +1,25 @@
+{
+  "name": "muselio-web",
+  "version": "1.0.0",
+  "description": "Galerie d'Art Domaine Public avec mise à jour automatique",
+  "main": "index.html",
+  "scripts": {
+    "fetch-artworks": "node scripts/fetch-artworks.js",
+    "validate": "node scripts/validate-artworks.js",
+    "stats": "node scripts/log-stats.js",
+    "update": "npm run fetch-artworks && npm run validate && npm run stats"
+  },
+  "keywords": [
+    "art",
+    "gallery",
+    "public-domain",
+    "museum",
+    "api"
+  ],
+  "author": "Lounes Bouzoua",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,73 @@
+name: 🎨 Update Artworks from Museums APIs
+
+on:
+  schedule:
+    # Chaque jour à minuit UTC
+    - cron: '0 0 * * *'
+
+  # Également possible de déclencher manuellement
+  workflow_dispatch:
+    inputs:
+      source:
+        description: 'Source API'
+        required: false
+        default: 'all'
+
+jobs:
+  update-artworks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📚 Install dependencies
+        run: npm install node-fetch@2
+
+      - name: 🎨 Fetch artworks from APIs
+        run: node scripts/fetch-artworks.js
+        env:
+          SMITHSONIAN_API_KEY: ${{ secrets.SMITHSONIAN_API_KEY }}
+          MET_API_ENDPOINT: 'https://collectionapi.metmuseum.org/public/collection/v1'
+          WIKIDATA_ENDPOINT: 'https://query.wikidata.org/sparql'
+
+      - name: 📊 Validate data
+        run: node scripts/validate-artworks.js
+
+      - name: 📝 Create commit message
+        id: commit_message
+        run: |
+          COUNT=$(node -e "console.log(require('./gallery-data.json').artworks.length)")
+          echo "message=🎨 Update: $COUNT artworks from museums APIs [automated]" >> $GITHUB_OUTPUT
+
+      - name: 📤 Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "Muselio Bot"
+
+          if ! git diff-index --quiet HEAD --; then
+            git add gallery-data.json
+            git commit -m "${{ steps.commit_message.outputs.message }}"
+            git push
+          else
+            echo "✅ No changes to commit"
+          fi
+
+      - name: 📊 Log statistics
+        run: node scripts/log-stats.js
+
+      - name: ✅ Notify success
+        if: success()
+        run: echo "✅ Artworks updated successfully!"
+
+      - name: ❌ Notify failure
+        if: failure()
+        run: echo "❌ Failed to update artworks"
