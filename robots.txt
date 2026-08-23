@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /.well-known/
+
+Sitemap: https://keen-cranachan-275345.netlify.app/sitemap.xml
+
+# Crawl delay for search engines
+Crawl-delay: 1
