@@ -47,7 +47,7 @@ app.post('/api/contact', async (req, res) => {
     // Envoyer email à Muselio
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
-      to: 'lounesbouzoua@gmail.com',
+      to: 'museliomuselio23@gmail.com',
       subject: `Nouveau message de contact de ${email}`,
       html: `
         <h2>Nouveau Message de Contact</h2>
