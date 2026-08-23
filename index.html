@@ -340,6 +340,25 @@
             text-decoration: underline;
         }
 
+        .download-button {
+            display: inline-block;
+            background: #d4af37;
+            color: #1a1a1a;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: 0.5rem;
+            font-family: var(--serif);
+            transition: all 0.3s;
+        }
+
+        .download-button:hover {
+            background: #e5c158;
+            transform: translateY(-2px);
+        }
+
         .gallery-item-content {
             width: 100%;
             height: 100%;
@@ -636,7 +655,7 @@
                     <li>✓ Partage social</li>
                     <li>✓ Hors ligne</li>
                 </ul>
-                <button class="cta-button">Télécharger</button>
+                <button class="cta-button" onclick="subscribeToPlan('Gratuit', 0)">Télécharger</button>
             </div>
             <div class="pricing-card">
                 <h3>Web Étudiant</h3>
@@ -647,7 +666,7 @@
                     <li>✓ Accès hors ligne</li>
                     <li>✓ Vérification .edu</li>
                 </ul>
-                <button class="cta-button">S'abonner</button>
+                <button class="cta-button" onclick="subscribeToPlan('10€', 10)">S'abonner</button>
             </div>
             <div class="pricing-card featured">
                 <h3>Web Premium</h3>
@@ -660,7 +679,7 @@
                     <li>✓ Collections illimitées</li>
                     <li>✓ Support prioritaire</li>
                 </ul>
-                <button class="cta-button">S'abonner</button>
+                <button class="cta-button" onclick="subscribeToPlan('20€', 20)">S'abonner</button>
             </div>
             <div class="pricing-card">
                 <h3>Professionnel</h3>
@@ -673,7 +692,7 @@
                     <li>✓ Données personnalisées</li>
                     <li>✓ Support dédié 24/7</li>
                 </ul>
-                <button class="cta-button">Contactez-nous</button>
+                <button class="cta-button" onclick="subscribeToPlan('30€', 30)">Contactez-nous / S'abonner</button>
             </div>
         </div>
     </section>
@@ -691,7 +710,7 @@
     <!-- Footer -->
     <footer id="contact">
         <p>&copy; 2026 Muselio — Galerie d'Art Domaine Public. Tous droits réservés.</p>
-        <p><a href="#privacy">Politique de confidentialité</a> • <a href="#terms">Conditions d'utilisation</a> • <a href="#contact-form">Nous contacter</a></p>
+        <p><a href="/privacy-policy.html" target="_blank">Politique de confidentialité</a> • <a href="/terms.html" target="_blank">Conditions d'utilisation</a> • <a href="#contact-form">Nous contacter</a></p>
     </footer>
 
     <script>
@@ -772,6 +791,98 @@
         // Lancer l'animation au chargement
         document.addEventListener('DOMContentLoaded', animateNumbers);
 
+        // FONCTION: Contactez-nous
+        function handleContactForm(e) {
+          e.preventDefault();
+          const form = e.target;
+          const email = form.querySelector('input[type="email"]').value;
+          const message = form.querySelector('textarea').value;
+
+          // Envoyer via API
+          fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, message })
+          })
+          .then(r => r.json())
+          .then(data => {
+            if (data.success || data.message) {
+              alert('✅ Message envoyé! Nous vous répondrons bientôt.');
+              form.reset();
+            } else {
+              alert('❌ Erreur: ' + (data.error || 'Impossible d\'envoyer'));
+            }
+          })
+          .catch(err => {
+            console.error(err);
+            alert('❌ Erreur de connexion');
+          });
+        }
+
+        // FONCTION: Subscribe aux plans
+        function subscribeToPlan(planName, price) {
+          const email = prompt('Entrez votre email pour continuer:');
+          if (!email) return;
+
+          const planMap = {
+            'Gratuit': 'mobile',
+            '10€': 'student',
+            '20€': 'premium',
+            '30€': 'professional'
+          };
+
+          const planId = planMap[planName];
+          if (!planId) {
+            alert('Plan invalide');
+            return;
+          }
+
+          // Créer session Stripe
+          fetch('/api/payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ plan: planId, email })
+          })
+          .then(r => r.json())
+          .then(data => {
+            if (data.sessionUrl) {
+              window.location.href = data.sessionUrl;
+            } else if (planId === 'mobile') {
+              alert('✅ App Mobile est gratuite! Rendez-vous sur l\'App Store ou Google Play.');
+            } else {
+              alert('❌ Erreur: ' + (data.error || 'Impossible de traiter le paiement'));
+            }
+          })
+          .catch(err => {
+            console.error(err);
+            alert('❌ Erreur de paiement');
+          });
+        }
+
+        // FONCTION: Télécharger une œuvre HD
+        function downloadArtwork(artworkId, title) {
+          const email = prompt('Entrez votre email pour recevoir le lien de téléchargement:');
+          if (!email) return;
+
+          fetch('/api/download', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ artworkId, email })
+          })
+          .then(r => r.json())
+          .then(data => {
+            if (data.success) {
+              alert('✅ Lien de téléchargement envoyé à ' + email + '!');
+            } else {
+              alert('❌ Erreur: ' + (data.error || 'Impossible de traiter'));
+            }
+          })
+          .catch(err => {
+            console.error(err);
+            alert('❌ Erreur de téléchargement');
+          });
+        }
+
         // Charger les œuvres depuis gallery-data.json ou localStorage
         async function loadArtworks() {
             try {
@@ -806,7 +917,10 @@
                                     ${artwork.museum}
                                 </div>
                                 ${artwork.description ? `<div class="artwork-description">${artwork.description}</div>` : ''}
-                                <a href="${artwork.url}" target="_blank" class="artwork-link">Voir l'original →</a>
+                                <div style="margin-top: 1rem;">
+                                    <a href="${artwork.url}" target="_blank" class="artwork-link">Voir l'original →</a>
+                                    <button class="download-button" onclick="downloadArtwork('${artwork.id}', '${artwork.title}')">⬇️ Télécharger HD</button>
+                                </div>
                             </div>
                         </div>
                     `).join('');

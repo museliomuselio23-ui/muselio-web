@@ -1,31 +1,56 @@
-# Configuration Netlify pour Muselio - Gilded Silence
-
 [build]
-  publish = "."
-  command = "echo 'No build needed'"
+command = "npm run update && npm install express cors body-parser nodemailer stripe dotenv"
+functions = "netlify/functions"
+publish = "."
 
-# Cache
-[[headers]]
-  for = "/*.{js,css,png,jpg,jpeg,gif,svg}"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/*.html"
-  [headers.values]
-    Cache-Control = "public, max-age=3600"
-
-# Redirects
+# API Redirects
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+from = "/api/*"
+to = "/.netlify/functions/:splat"
+status = 200
 
-# Security headers
+# SPA Fallback
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+
+# Cache Configuration
 [[headers]]
-  for = "/*"
-  [headers.values]
-    X-Content-Type-Options = "nosniff"
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    Referrer-Policy = "strict-origin-when-cross-origin"
+for = "/*.{js,css,png,jpg,jpeg,gif,svg,woff,woff2}"
+[headers.values]
+Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+for = "/*.html"
+[headers.values]
+Cache-Control = "public, max-age=3600"
+
+[[headers]]
+for = "/gallery-data.json"
+[headers.values]
+Cache-Control = "public, max-age=3600"
+
+# Security Headers
+[[headers]]
+for = "/*"
+[headers.values]
+X-Content-Type-Options = "nosniff"
+X-Frame-Options = "SAMEORIGIN"
+X-XSS-Protection = "1; mode=block"
+Referrer-Policy = "strict-origin-when-cross-origin"
+Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' fonts.googleapis.com; img-src 'self' data: https:; connect-src 'self' api.stripe.com; font-src 'self' fonts.gstatic.com"
+
+# Environment Variables
+[context.production.environment]
+EMAIL_USER = "muselio.noreply@gmail.com"
+STRIPE_PUBLIC_KEY = "pk_live_your_production_key"
+
+[context.preview.environment]
+EMAIL_USER = "muselio.test@gmail.com"
+STRIPE_PUBLIC_KEY = "pk_test_your_test_key"
+
+[context.deploy-preview.environment]
+EMAIL_USER = "muselio.test@gmail.com"
+STRIPE_PUBLIC_KEY = "pk_test_your_test_key"
