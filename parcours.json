@@ -1,0 +1,30 @@
+[
+{
+  "id":"femmes",
+  "titre":"Femmes dans l'art",
+  "emoji":"♀",
+  "dataset":"femmes",
+  "intro":"Longtemps écartées des académies, des femmes ont pourtant marqué l'histoire de la peinture. De Berthe Morisot à Mary Cassatt en passant par Artemisia Gentileschi, ce parcours réunit le maximum de leurs œuvres, puisées dans la Galerie Libre et les grands musées (Met, Cleveland, Chicago).",
+  "artists":[],
+  "keywords":[]
+},
+{
+  "id":"scandales",
+  "titre":"Grands scandales de l'art",
+  "emoji":"⚡",
+  "premium":true,
+  "intro":"Œuvres qui firent scandale à leur époque : nus provocateurs, sujets tabous, ruptures esthétiques. Manet, Courbet, Goya, Schiele… un parcours de la controverse, illustré depuis la Galerie Libre.",
+  "artists":["Édouard Manet","Gustave Courbet","Francisco Goya","Egon Schiele","Gustav Klimt","Félicien Rops","Franz von Stuck","Aubrey Beardsley"],
+  "keywords":["olympia","odalisque","bathsheba","maja","salome","salomé"]
+},
+{
+  "id":"nu",
+  "titre":"Histoire du nu",
+  "emoji":"◐",
+  "premium":true,
+  "intro":"Du nu mythologique idéalisé au corps moderne — et jusqu'aux belles femmes (bijin) et courtisanes de l'estampe japonaise. Vénus, baigneuses, odalisques, bijin-ga… l'une des plus anciennes traditions de l'art, d'Occident en Orient. (Contenu artistique, réservé à un public averti.)",
+  "artists":["William-Adolphe Bouguereau","Alexandre Cabanel","Amedeo Modigliani"],
+  "keywords":["nude","naked","venus","vénus","bather","baigneuse","baigneur","odalisque","nymph","nymphe","bathing","bijin","courtesan","courtisane","geisha"],
+  "exclude":["nymphea","nymphéa","water lil","nénuphar","waterlil"]
+}
+]

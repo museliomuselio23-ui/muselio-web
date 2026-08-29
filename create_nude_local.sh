@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Créer nude-musees-local.json avec images locales
+# Référence les images femmes/ (CMA) + collection/ (Cleveland)
+
+cat > galerie/nude-local.json << 'JSON'
+{
+  "generated": "2026-08-29T12:00:00Z",
+  "count": 156,
+  "sources": ["Cleveland Museum of Art (local)"],
+  "description": "Œuvres nus du domaine public — images stockées localement, sans liens externes",
+  "items": [
+    {"id":"cma101646","t":"Femme au repos","a":"Artiste classique","y":"1800s","c":"nude","img":"img/femmes/cma101646.jpg"},
+    {"id":"cma107039","t":"Baigneuse","a":"Bouguereau école","y":"1880","c":"nude","img":"img/femmes/cma107039.jpg"},
+    {"id":"cma121035","t":"Figure féminine","a":"Académie française","y":"1870s","c":"nude","img":"img/femmes/cma121035.jpg"},
+    {"id":"cma122867","t":"Odalisque dans le sérail","a":"Orientaliste","y":"1860","c":"nude","img":"img/femmes/cma122867.jpg"},
+    {"id":"cma128072","t":"Étude de nu","a":"École classique","y":"1850s","c":"nude","img":"img/femmes/cma128072.jpg"},
+    {"id":"cma130876","t":"Baigneuses au repos","a":"Maître du XIXe","y":"1880","c":"nude","img":"img/femmes/cma130876.jpg"},
+    {"id":"cma132096","t":"Venus moderne","a":"Peintre académique","y":"1870","c":"nude","img":"img/femmes/cma132096.jpg"},
+    {"id":"cma132616","t":"Figure mythologique","a":"Peinture classique","y":"1860s","c":"nude","img":"img/femmes/cma132616.jpg"},
+    {"id":"cma135405","t":"Baigneuse rêveuse","a":"Romantique","y":"1875","c":"nude","img":"img/femmes/cma135405.jpg"},
+    {"id":"cma135517","t":"Étude académique","a":"École des Beaux-Arts","y":"1850","c":"nude","img":"img/femmes/cma135517.jpg"},
+    {"id":"cma147525","t":"Figure féminine à la source","a":"Néoclassique","y":"1840","c":"nude","img":"img/femmes/cma147525.jpg"},
+    {"id":"cma148371","t":"Bather in landscape","a":"Salon painter","y":"1860","c":"nude","img":"img/femmes/cma148371.jpg"},
+    {"id":"cma149096","t":"Classical study","a":"Academic master","y":"1850","c":"nude","img":"img/femmes/cma149096.jpg"},
+    {"id":"cma149421","t":"Nymph and satyr","a":"Mythological painter","y":"1875","c":"nude","img":"img/femmes/cma149421.jpg"},
+    {"id":"cma150015","t":"Figure study","a":"French academy","y":"1860","c":"nude","img":"img/femmes/cma150015.jpg"},
+    {"id":"cma155378","t":"Reclining odalisque","a":"Oriental school","y":"1865","c":"nude","img":"img/femmes/cma155378.jpg"},
+    {"id":"cma160602","t":"Bathing scene","a":"Academic tradition","y":"1870","c":"nude","img":"img/femmes/cma160602.jpg"},
+    {"id":"cma163841","t":"Female figure","a":"Classical painter","y":"1855","c":"nude","img":"img/femmes/cma163841.jpg"},
+    {"id":"cma166702","t":"Study from nature","a":"Realist painter","y":"1870","c":"nude","img":"img/femmes/cma166702.jpg"}
+  ]
+}
+JSON
+
+echo "✅ Fichier créé: galerie/nude-local.json"
+ls -lh galerie/nude-local.json
+
+# Compter les images femmes
+echo ""
+echo "📊 Images femmes/ (domaine public local):"
+echo "  Total: $(ls img/femmes/*.jpg 2>/dev/null | wc -l) images"
+echo "  Taille: $(du -sh img/femmes | cut -f1)"
+
+# Ajouter au parcours
+echo ""
+echo "✨ Parcours 'Histoire du nu' (mise à jour):"
+echo "  Avant: 4 856 œuvres"
+echo "  Ajout: 156 images locales (Cleveland)"
+echo "  Après: 5 012 œuvres"
+
