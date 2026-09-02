@@ -2383,8 +2383,19 @@ $('themeBtn').addEventListener('click',()=>{
 
 /* ---------- Premium (téléchargement HD) ---------- */
 state.premium=localStorage.getItem('muselio_web_premium')==='1';
-/* Déblocage propriétaire : visiter le site avec ?vip=muselio-lounes-2026 active le Premium sur CET appareil (uniquement pour toi). Le public reste bloqué. */
-try{ if(new URLSearchParams(location.search).get('vip')==='muselio-lounes-2026'){ state.premium=true; localStorage.setItem('muselio_web_premium','1'); } }catch(_){}
+/* Déblocage propriétaire : visiter le site avec ?vip=TON_MOT_DE_PASSE active le Premium sur CET appareil (uniquement pour toi). Le public reste bloqué.
+   Sécurité : le mot de passe n'est PAS écrit ici. On stocke seulement son empreinte SHA-256 (à sens unique, impossible à inverser).
+   Pour changer de mot de passe : calcule le SHA-256 du nouveau mot et remplace la valeur PREMIUM_HASH ci-dessous. */
+const PREMIUM_HASH='8ea0439506bbea584a433097a79a4f15583c0c4b316f144c178c797914877a19';
+(async function(){
+  try{
+    const vip=new URLSearchParams(location.search).get('vip');
+    if(!vip||!(window.crypto&&crypto.subtle)) return;
+    const buf=await crypto.subtle.digest('SHA-256', new TextEncoder().encode(vip));
+    const hex=[...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
+    if(hex===PREMIUM_HASH){ state.premium=true; localStorage.setItem('muselio_web_premium','1'); if(typeof updatePremiumUI==='function') updatePremiumUI(); }
+  }catch(_){}
+})();
 let pendingHd=null;
 /* Nom de fichier de marque : « Artiste - Titre - muselio.art ». */
 function dlName(it){
